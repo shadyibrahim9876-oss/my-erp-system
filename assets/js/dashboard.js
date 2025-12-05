@@ -1,12 +1,6 @@
-/* =========================================
-   Systemize - Dashboard Logic (React)
-   ========================================= */
-
 const { useState, useEffect, useContext, createContext, useRef, useCallback } = React;
 
-/* ========================================
-   Sound & Utility Functions
-   ======================================== */
+/* --- Sound & Utility --- */
 const audioRef = { ctx: null };
 const playSound = (type) => {
     try {
@@ -28,9 +22,7 @@ const playSound = (type) => {
     } catch (e) {}
 };
 
-/* ========================================
-   Icon Component (Lucide)
-   ======================================== */
+/* --- Icon Component --- */
 const Icon = ({ name, size = 20, className = "", strokeWidth = 2, style={} }) => {
     const containerRef = useRef(null);
     useEffect(() => {
@@ -48,9 +40,7 @@ const Icon = ({ name, size = 20, className = "", strokeWidth = 2, style={} }) =>
     return <span ref={containerRef} className="inline-flex items-center justify-center"></span>;
 };
 
-/* ========================================
-   Custom SVG Icons
-   ======================================== */
+/* --- SVG Icons --- */
 const iconSize = 56;
 const ShippingIcon = () => ( <svg width={iconSize} height={iconSize} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="icon-drop-shadow"> <path d="M4 24H44V36C44 38.2091 42.2091 40 40 40H8C5.79086 40 4 38.2091 4 36V24Z" fill="#60A5FA" opacity="0.8"/> <path d="M8 24V12C8 9.79086 9.79086 8 12 8H28V24H8Z" fill="#3B82F6"/> <path d="M28 24V14L40 24H28Z" fill="#2563EB"/> <circle cx="14" cy="40" r="4" fill="#1E40AF"/> <circle cx="34" cy="40" r="4" fill="#1E40AF"/> </svg> );
 const OperationsIcon = () => ( <svg width={iconSize} height={iconSize} viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="icon-drop-shadow"> <circle cx="24" cy="24" r="18" stroke="#F59E0B" strokeWidth="4"/> <circle cx="24" cy="24" r="8" fill="#FBBF24"/> <path d="M24 6V12M24 36V42M42 24H36M12 24H6" stroke="#D97706" strokeWidth="4" strokeLinecap="round"/> </svg> );
@@ -89,9 +79,7 @@ const SCMIcon = () => (
     </svg>
 );
 
-/* ========================================
-   Context API (State Management)
-   ======================================== */
+/* --- Context API --- */
 const AppContext = createContext();
 const AppProvider = ({ children }) => {
     const [darkMode, setDarkMode] = useState(false);
@@ -144,9 +132,7 @@ const AppProvider = ({ children }) => {
     );
 };
 
-/* ========================================
-   App Data
-   ======================================== */
+/* --- App Data --- */
 const MASTER_APPS_DATA = [
     { id: 'shipping', label: 'Shipping', icon: <ShippingIcon />, desc: "Logistics & Delivery Management" },
     { id: 'scm', label: 'SCM (Supply Chain)', icon: <SCMIcon />, desc: "Supply Chain Management" },
@@ -183,9 +169,7 @@ const MODULE_NAV_DATA = {
     ]
 };
 
-/* ========================================
-   Components
-   ======================================== */
+/* --- Components --- */
 const SideMenu = () => {
     const { sidebarOpen, toggleSidebar, activePage, navigateTo, notify } = useContext(AppContext);
     const menuItems = [
@@ -367,6 +351,7 @@ const TopHeader = () => {
                 <div className="relative"><button onClick={() => togglePopover(setShowTasks, 'Tasks')} className="w-14 h-14 rounded-2xl aurora-green-bg shadow-aurora flex items-center justify-center cursor-pointer hover:scale-105 transition-transform group"><div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm"><Icon name="check-square" size={24} className="text-white drop-shadow-sm" strokeWidth={2.5} /></div></button></div>
                 <div className="relative"><button onClick={() => togglePopover(setShowCalendar, 'Calendar')} className="w-14 h-14 rounded-2xl aurora-cal-bg shadow-aurora flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform"><span className="text-[9px] font-medium text-slate-700 tracking-wide">{time.toLocaleString('default', { month: 'short' })}</span><span className="text-xl font-bold text-white drop-shadow-sm leading-none mt-0.5">{time.getDate()}</span></button></div>
                 <button onClick={() => { setDarkMode(!darkMode); notify('success', 'Theme', 'Updated'); }} className="bg-gray-200 dark:bg-gray-700 w-14 h-8 rounded-full p-1 flex items-center transition-colors shadow-inner-sm"><div className={`w-6 h-6 rounded-full bg-white shadow-sm flex items-center justify-center text-yellow-500 transition-transform duration-300 ${darkMode ? 'translate-x-6' : 'translate-x-0'}`}><Icon name={darkMode ? "moon" : "sun"} size={14} fill={true} /></div></button>
+                
                 <div className="relative">
                     <div onClick={() => togglePopover(setShowProfile, 'Profile')} className="p-[3px] rounded-full bg-gradient-to-b from-purple-400 to-purple-800 cursor-pointer hover:scale-105 transition-transform relative">
                         <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-darkBgBody" />
@@ -395,14 +380,23 @@ const TopHeader = () => {
                             <div className="space-y-1">
                                 <button onClick={() => notify('info', 'Docs', 'Opening Documentation...')} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm text-textSecondary dark:text-darkTextSecondary"><Icon name="book-open" size={16} /><span>Documentation</span></button>
                                 <button onClick={() => notify('info', 'Preferences', 'Opening Settings...')} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm text-textSecondary dark:text-darkTextSecondary"><Icon name="settings" size={16} /><span>My Preferences</span></button>
-                                <button onClick={() => { notify('error', 'Auth', 'Logging out...'); setTimeout(() => window.location.href = 'login.html', 1500); }} ...>
-className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm text-red-500"><Icon name="log-out" size={16} /><span>Log out</span></button>
+                                <button 
+                                    onClick={() => { 
+                                        notify('error', 'Auth', 'Logging out...'); 
+                                        setTimeout(() => window.location.href = 'login.html', 1500); 
+                                    }} 
+                                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm text-red-500"
+                                >
+                                    <Icon name="log-out" size={16} />
+                                    <span>Log out</span>
+                                </button>
                             </div>
                         </div>
                     )}
                 </div>
             </div>
         </header> 
+
         {(showCalendar || showTasks || showClock || showProfile) && <div className="fixed inset-0 z-[105]" onClick={() => { setShowCalendar(false); setShowTasks(false); setShowClock(false); setShowProfile(false); }}></div>}
         {showClock && <ClockPopover />}
         {showCalendar && <CalendarPopover />}
@@ -411,9 +405,7 @@ className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-red-50 d
     ); 
 };
 
-/* ========================================
-   Main Views
-   ======================================== */
+/* --- Main Views --- */
 const HomeContent = () => {
     const { navigateTo, notify } = useContext(AppContext);
     return (
@@ -648,9 +640,7 @@ const MainLayout = () => {
     );
 };
 
-/* ========================================
-   Root
-   ======================================== */
+/* --- Root --- */
 const App = () => {
     return (
         <AppProvider>
