@@ -1,80 +1,196 @@
-/* =========================================
-   1. إعدادات الصفحة (Body & Scroll)
-   ========================================= */
-body { 
-    transition: background-color 0.3s ease, color 0.3s ease; 
-    zoom: 0.85; 
+/* ============================================================
+   1. GLOBAL / VARIABLES
+   ============================================================ */
+:root {
+    --bg-color: #ffffff;
+    --text-main: #1d1d1f;
+    --text-secondary: #86868b;
+    --accent-blue: #0071e3;
+    --border-color: #d2d2d7;
+    --accent-error: #ff3b30;
+    --fade-duration: 0.8s;
+    --fade-curve: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    zoom: 0.85;
+}
+
+/* ============================================================
+   2. LOGIN PAGE STYLES
+   ============================================================ */
+.container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    padding: 20px;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease;
+    margin-top: 70px;
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--text-main);
+    user-select: none;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -205px;
+}
+
+.form-group { position: relative; margin-bottom: 20px; text-align: left; }
+
+input {
+    width: 100%;
+    padding: 20px 16px 6px 16px;
+    height: 56px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: transparent;
+    font-size: 17px;
+    color: var(--text-main);
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+}
+input:focus { border: 2px solid var(--accent-blue); }
+input::-ms-reveal, input::-ms-clear { display: none; }
+
+.floating-label {
+    position: absolute;
+    left: 16px; top: 18px;
+    color: var(--text-secondary);
+    font-size: 17px; font-weight: 400;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    transform-origin: left top;
+}
+input:focus ~ .floating-label, input:not(:placeholder-shown) ~ .floating-label {
+    top: 8px; font-size: 12px; color: var(--accent-blue);
+}
+input:not(:placeholder-shown):not(:focus) ~ .floating-label { color: var(--text-secondary); }
+
+.privacy-icon-container { display: flex; justify-content: center; margin-bottom: 12px; margin-top: 5px; }
+.privacy-icon-svg { width: 32px; height: 32px; fill: var(--accent-blue); }
+.disclaimer-text { font-size: 11px; color: #86868b; line-height: 1.4; text-align: left; margin-bottom: 25px; padding: 0 4px; }
+
+.action-row { display: flex; justify-content: center; gap: 15px; margin-top: 10px; align-items: center; }
+
+.btn-primary {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 14px 40px;
+    font-size: 16px;
+    border-radius: 980px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    border: none; cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-primary:hover { transform: scale(1.02); background-color: #333; }
+
+.btn-secondary {
+    color: var(--text-secondary);
+    font-size: 14px; font-weight: 400;
+    display: flex; align-items: center; gap: 6px;
+    background: transparent; border: none; cursor: pointer;
+    transition: color 0.2s ease;
+}
+.btn-secondary::before {
+    content: ''; display: inline-block; width: 14px; height: 14px;
+    border: 1px solid #d2d2d7; border-radius: 4px;
+    transition: all 0.2s ease;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+.btn-secondary:hover { color: var(--text-main); }
+.btn-secondary:hover::before { border-color: var(--text-main); }
+.btn-secondary.checked { color: var(--text-main); }
+.btn-secondary.checked::before {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.btn-icon {
+    font-size: 18px; padding: 10px; border-radius: 50%;
+    color: var(--text-secondary); display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; background: transparent; border: none; cursor: pointer;
+}
+.btn-icon:hover { background-color: #f5f5f7; color: var(--text-main); }
+
+.bottom-links { margin-top: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.pill-link {
+    color: var(--accent-blue); font-size: 13px; cursor: pointer;
+    padding: 8px 16px; background-color: #f5f5f7;
+    border-radius: 20px; font-weight: 500; transition: all 0.2s;
+}
+.pill-link:hover { background-color: #e8e8ed; color: #005bb5; }
+
+.footer { position: absolute; bottom: 30px; width: 100%; text-align: center; color: #86868b; transition: opacity 0.5s ease; }
+.social-row { margin-bottom: 25px; display: flex; justify-content: center; gap: 24px; }
+.social-icon { width: 20px; height: 20px; fill: #86868b; transition: fill 0.3s ease, transform 0.3s ease; cursor: pointer; }
+.social-icon:hover { fill: var(--text-main); transform: translateY(-2px); }
+.footer-legal { font-size: 11px; display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+.footer-legal a { color: #515154; text-decoration: none; padding-right: 12px; border-right: 1px solid #d2d2d7; }
+.footer-legal a:last-of-type { border-right: none; }
+.footer-legal a:hover { text-decoration: underline; color: #1d1d1f; }
+.footer-location { color: #1d1d1f; margin-left: 5px; }
+
+.error-msg { color: var(--accent-error); font-size: 13px; margin-top: 15px; height: 20px; opacity: 0; text-align: center; transition: opacity 0.5s ease; }
+.message-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-color); z-index: 50; text-align: center; }
+.message-text {
+    font-size: 26px; font-weight: 600; letter-spacing: -0.5px; color: var(--text-main); max-width: 85%; line-height: 1.5; opacity: 0; transform: translateY(20px); filter: blur(10px);
+    transition: opacity var(--fade-duration) var(--fade-curve), transform var(--fade-duration) var(--fade-curve), filter var(--fade-duration) var(--fade-curve);
+    will-change: transform, opacity, filter;
+}
+.message-text.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+@keyframes shake { 0%, 100% { transform: translateX(0) scale(0.9); } 20%, 60% { transform: translateX(-8px) scale(0.9); } 40%, 80% { transform: translateX(8px) scale(0.9); } }
+.shake-anim { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+
+.view-section { display: none; opacity: 0; transform: scale(0.98); transition: opacity var(--fade-duration) var(--fade-curve), transform var(--fade-duration) var(--fade-curve); }
+.view-section.active { display: block; opacity: 1; transform: scale(1); }
+.view-section.fading-out { opacity: 0; transform: scale(0.98); }
+
+/* ============================================================
+   DASHBOARD SPECIFIC & EXTRAS
+   ============================================================ */
+/* Scrollbar, Aurora, Icons for Dashboard */
 .custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
 .custom-scroll::-webkit-scrollbar-track { background: transparent; }
 .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 .dark .custom-scroll::-webkit-scrollbar-thumb { background: #334155; }
-
-/* =========================================
-   2. الخلفيات (Aurora)
-   ========================================= */
-.aurora-cal-bg { 
-    background: linear-gradient(135deg, rgba(168,230,207,0.9) 0%, rgba(255,211,182,0.9) 100%); 
-    backdrop-filter: blur(8px); 
-    border: 1px solid rgba(255, 255, 255, 0.4); 
-}
-
-.aurora-green-bg { 
-    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); 
-    backdrop-filter: blur(8px); 
-    border: 1px solid rgba(255, 255, 255, 0.4); 
-}
-
-/* =========================================
-   3. تأثيرات SVG والجزيرة
-   ========================================= */
+.aurora-cal-bg { background: linear-gradient(135deg, rgba(168,230,207,0.9) 0%, rgba(255,211,182,0.9) 100%); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.4); }
+.aurora-green-bg { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.4); }
 .home-gradient { stroke: url(#homeGradient); }
-
 .island-container { position: fixed; top: 12px; left: 0; right: 0; display: flex; justify-content: center; z-index: 9999; pointer-events: none; }
-
-.dynamic-island { 
-    background: rgba(0, 0, 0, 0.95); 
-    backdrop-filter: blur(20px); 
-    color: white; 
-    border-radius: 40px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: hidden; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-    transform: translate3d(0,0,0); 
-    will-change: width, height, opacity; 
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; 
-    width: 0px; 
-    height: 0px; 
-    opacity: 0; 
-    padding: 0; 
-}
-
+.dynamic-island { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(20px); color: white; border-radius: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transform: translate3d(0,0,0); will-change: width, height, opacity; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease; width: 0px; height: 0px; opacity: 0; padding: 0; }
 .dynamic-island.active { width: auto; min-width: 180px; height: 44px; opacity: 1; padding: 0 16px; }
-
-.island-content { 
-    display: flex; 
-    align-items: center; 
-    gap: 12px; 
-    white-space: nowrap; 
-    opacity: 0; 
-    transform: scale(0.95); 
-    transition: opacity 0.2s ease 0.1s, transform 0.2s ease 0.1s; 
-}
-
+.island-content { display: flex; align-items: center; gap: 12px; white-space: nowrap; opacity: 0; transform: scale(0.95); transition: opacity 0.2s ease 0.1s, transform 0.2s ease 0.1s; }
 .dynamic-island.active .island-content { opacity: 1; transform: scale(1); }
-
-/* =========================================
-   4. الأيقونات والأنيميشن
-   ========================================= */
 .icon-drop-shadow { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: filter 0.3s ease, transform 0.3s ease; }
 .group:hover .icon-drop-shadow { filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15)); transform: scale(1.1); }
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .dropdown-animate { animation: slideDown 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards; transform-origin: top left; }
