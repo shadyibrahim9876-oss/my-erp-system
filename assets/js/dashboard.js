@@ -395,7 +395,8 @@ const TopHeader = () => {
                             <div className="space-y-1">
                                 <button onClick={() => notify('info', 'Docs', 'Opening Documentation...')} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm text-textSecondary dark:text-darkTextSecondary"><Icon name="book-open" size={16} /><span>Documentation</span></button>
                                 <button onClick={() => notify('info', 'Preferences', 'Opening Settings...')} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-sm text-textSecondary dark:text-darkTextSecondary"><Icon name="settings" size={16} /><span>My Preferences</span></button>
-                                <button onClick={() => notify('error', 'Auth', 'Logging out...')} className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm text-red-500"><Icon name="log-out" size={16} /><span>Log out</span></button>
+                                <button onClick={() => { notify('error', 'Auth', 'Logging out...'); setTimeout(() => window.location.href = 'login.html', 1500); }} ...>
+className="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-sm text-red-500"><Icon name="log-out" size={16} /><span>Log out</span></button>
                             </div>
                         </div>
                     )}

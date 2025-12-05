@@ -143,8 +143,23 @@ function runSuccessSequence(name) {
                 updateMessageText('Always be prepared for a great day');
                 setTimeout(() => {
                     messageContent.classList.remove('visible'); 
-                    // هنا يمكننا التوجيه إلى الداشبورد لاحقاً
-                    // window.location.href = 'dashboard.html';
+         function runSuccessSequence(name) {
+    mainContainer.style.opacity = '0';
+    footer.style.opacity = '0';
+    setTimeout(() => {
+        mainContainer.style.display = 'none';
+        messageOverlay.style.display = 'flex';
+        updateMessageText(`Welcome ${name}`);
+        setTimeout(() => {
+            messageContent.classList.remove('visible'); 
+            setTimeout(() => {
+                updateMessageText('Always be prepared for a great day');
+                setTimeout(() => {
+                    messageContent.classList.remove('visible'); 
+                    
+                    // 👇👇 التعديل هنا: شيلنا العلامة وغيرنا الاسم لـ index.html 👇👇
+                    window.location.href = 'index.html'; 
+
                 }, 3000);
             }, 1500);
         }, 3000);
